@@ -75,7 +75,7 @@ void printMenu(void)
 /*Adds a node to the queue with a value, if
 	there are no nodes on the queue, then the
 	head and the tail are pointed at the node.*/
-int enqueue(Node** head, Node **arse, int value)
+int enqueue(Node** head, Node **tail, int value)
 {
 	Node* newNode = malloc(sizeof(Node));
 	newNode->data = value;
@@ -84,12 +84,12 @@ int enqueue(Node** head, Node **arse, int value)
 	if(*head == NULL)
 	{
 		*head = newNode;
-		*arse = newNode;
+		*tail = newNode;
 	}
 	else
 	{
-		(*arse)->next = newNode;
-		*arse = newNode;
+		(*tail)->next = newNode;
+		*tail = newNode;
 	}
 	
 }
