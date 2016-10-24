@@ -44,7 +44,10 @@ int main(void)
 			case 1:
 			printf("Value to enqueue:\t");
 			scanf("%d", &value);
-			enqueue(&queue, value);
+			if((enqueue(&queue, value)) == -1)
+			{
+				printf("Failed to enqueue\n");
+			}
 			break;
 			case 2:
 			printf("Value dequeued:\t%d\n",dequeue(&queue));
@@ -78,7 +81,11 @@ void printMenu(void)
 	head and the tail are pointed at the node.*/
 int enqueue(Queue* queue, int value)
 {
-	Node* newNode = malloc(sizeof(Node));
+	Node* newNode;
+	if((newNode = malloc(sizeof(Node))) == NULL)
+	{
+		return -1;
+	}
 	newNode->data = value;
 	newNode->next = NULL;
 	
@@ -92,6 +99,8 @@ int enqueue(Queue* queue, int value)
 		queue->tail->next = newNode;
 		queue->tail = newNode;
 	}
+	
+	return 0;
 	
 }
 
