@@ -32,5 +32,11 @@
 *.dSYM/
 *.su
 
+<<<<<<< HEAD
 # batch files
 *.bat
+=======
+#Batch files
+*.bat
+
+>>>>>>> queuehead
