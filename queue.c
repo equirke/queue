@@ -9,24 +9,25 @@ struct QueueNode
 
 typedef struct QueueNode Node;
 
+struct QueueHead
+{
+	Node *head;
+	Node *tail;
+};
+
+typedef struct QueueHead Queue;
+
 void printMenu(void);
-int enqueue(Node**, Node**, int);
-int dequeue(Node**);
-void printQueue(Node**);
-void freeQueue(Node**);
+int enqueue(Queue*, int);
+int dequeue(Queue*);
+void printQueue(Queue*);
+void freeQueue(Queue*);
 
 
 int main(void)
 {
-	Node **tail;
-	Node **head;
-	Node *t;
-	Node *h;
-	t = NULL;
-	h = NULL;
-	tail = &t;
-	head = &h;
-	
+	Queue queue;
+	queue.head = NULL;
 	int input = 0;
 	int value;
 	do
@@ -43,13 +44,13 @@ int main(void)
 			case 1:
 			printf("Value to enqueue:\t");
 			scanf("%d", &value);
-			enqueue(head, tail, value);
+			enqueue(&queue, value);
 			break;
 			case 2:
-			printf("Value dequeued:\t%d\n",dequeue(head));
+			printf("Value dequeued:\t%d\n",dequeue(&queue));
 			break;
 			case 3:
-			printQueue(head);
+			printQueue(&queue);
 			break;
 			
 			default:
@@ -60,7 +61,7 @@ int main(void)
 	printf("\n");
 	}while(input != 0);
 	
-	freeQueue(head);
+	freeQueue(&queue);
 	
 }
 
@@ -75,21 +76,21 @@ void printMenu(void)
 /*Adds a node to the queue with a value, if
 	there are no nodes on the queue, then the
 	head and the tail are pointed at the node.*/
-int enqueue(Node** head, Node **arse, int value)
+int enqueue(Queue* queue, int value)
 {
 	Node* newNode = malloc(sizeof(Node));
 	newNode->data = value;
 	newNode->next = NULL;
 	
-	if(*head == NULL)
+	if(queue->head == NULL)
 	{
-		*head = newNode;
-		*arse = newNode;
+		queue->head = newNode;
+		queue->tail = newNode;
 	}
 	else
 	{
-		(*arse)->next = newNode;
-		*arse = newNode;
+		queue->tail->next = newNode;
+		queue->tail = newNode;
 	}
 	
 }
@@ -97,15 +98,15 @@ int enqueue(Node** head, Node **arse, int value)
 /*Removes a node from the queue
 	if the queue is not already
 	empty*/
-int dequeue(Node** head)
+int dequeue(Queue* queue)
 {
 	int value;
 	Node *top;
 	
-	if(*head != NULL)
+	if(queue->head != NULL)
 	{
-		top = *head;
-		*head = (*head)->next;
+		top = queue->head;
+		queue->head = queue->head->next;
 		value = top->data;
 		free(top);
 		return value;
@@ -118,10 +119,10 @@ int dequeue(Node** head)
 
 /*Prints the entire queue showing
 	the link between the nodes*/
-void printQueue(Node** head)
+void printQueue(Queue* queue)
 {	
 	printf("H");
-	Node *print = *head;
+	Node *print = queue->head;
 	
 	while(print != NULL)
 	{
@@ -134,13 +135,13 @@ void printQueue(Node** head)
 
 /*Frees the queue at the end of the
 	program if the queue is not already empty*/
-void freeQueue(Node** head)
+void freeQueue(Queue* queue)
 {
 	Node *cur;
-	while(*head != NULL)
+	while(queue->head != NULL)
 	{
-		cur = *head;
-		*head = (*head)->next;
+		cur = queue->head;
+		queue->head = queue->head->next;
 		free(cur);
 	}
 }
