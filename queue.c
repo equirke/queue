@@ -23,7 +23,7 @@ int dequeue(Queue*);
 void printQueue(Queue*);
 void freeQueue(Queue*);
 
-
+// why isn't there a comment here??????
 int main(void)
 {
 	Queue queue;
