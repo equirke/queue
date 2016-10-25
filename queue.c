@@ -69,6 +69,7 @@ int main(void)
 	
 }
 
+// Function to print the menu
 void printMenu(void)
 {
 	printf("1) Enqueue value\n");
