@@ -19,7 +19,7 @@ typedef struct QueueHead Queue;
 
 void printMenu(void);
 int enqueue(Queue*, int);
-int dequeue(Queue*);
+int dequeue(Queue*, int*);
 void printQueue(Queue*);
 void freeQueue(Queue*);
 
@@ -51,7 +51,14 @@ int main(void)
 			}
 			break;
 			case 2:
-			printf("Value dequeued:\t%d\n",dequeue(&queue));
+			if((dequeue(&queue, &value)) == -1)
+			{
+				printf("Failed to dequeue\n");
+			}
+			else
+			{
+				printf("Value dequeued:\t%d\n", value);
+			}
 			break;
 			case 3:
 			printQueue(&queue);
@@ -109,18 +116,17 @@ int enqueue(Queue* queue, int value)
 /*Removes a node from the queue
 	if the queue is not already
 	empty*/
-int dequeue(Queue* queue)
+int dequeue(Queue* queue, int* value)
 {
-	int value;
 	Node *top;
 	
 	if(queue->head != NULL)
 	{
 		top = queue->head;
 		queue->head = queue->head->next;
-		value = top->data;
+		*value = top->data;
 		free(top);
-		return value;
+		return 0;
 	}
 	else
 	{
